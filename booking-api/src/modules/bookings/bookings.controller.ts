@@ -11,7 +11,13 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dtos';
 import { AtGuard } from '../auth/guards';
@@ -26,9 +32,15 @@ export class BookingsController {
   @Post()
   @ApiOperation({ summary: 'Create a new booking' })
   @ApiResponse({ status: 201, description: 'Booking created successfully' })
-  @ApiResponse({ status: 409, description: 'No tickets available or already booked' })
+  @ApiResponse({
+    status: 409,
+    description: 'No tickets available or already booked',
+  })
   @ApiResponse({ status: 404, description: 'Event not found' })
-  async create(@Request() req: any, @Body() createBookingDto: CreateBookingDto): Promise<any> {
+  async create(
+    @Request() req: any,
+    @Body() createBookingDto: CreateBookingDto,
+  ): Promise<any> {
     const userId = req.user.sub;
     return this.bookingsService.create(userId, createBookingDto);
   }
@@ -46,7 +58,10 @@ export class BookingsController {
   @ApiResponse({ status: 200, description: 'Booking cancelled successfully' })
   @ApiResponse({ status: 404, description: 'Booking not found' })
   @ApiParam({ name: 'id', type: 'string', format: 'uuid' })
-  async cancel(@Request() req: any, @Param('id', ParseUUIDPipe) id: string): Promise<any> {
+  async cancel(
+    @Request() req: any,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<any> {
     const userId = req.user.sub;
     return this.bookingsService.cancel(userId, id);
   }
